@@ -38,26 +38,20 @@ var margin = {top: 40, right: 40, bottom: 40, left:40}, //// The concept of marg
     width = 600, ///width and height of the SVG image 
     height = 500;
 
-var x = d3.time.scale() /// D3 has multiple scales (I will discuss scales later in this lesson). This is a time scale. this scale is used to draw the x-axis.Pay attention to how we specify domain and rangeBound for this scale. rangeBound you can find only in time scales
-    .domain([new Date(data[0].date), d3.time.day.offset(new Date(data[data.length - 1].date), 1)])/// domain is an array that contains the beginning of the range and the end of the range. new Date(XXX) in Javascript means a date.
-    /// data[0].date is a reference to the first value in our JSON array.
-    .rangeRound([0, width - margin.left - margin.right]); /// the rangeBound extends from 0 to the maximum width (width-margins!!!).
-
-var y = d3.scale.linear() /// This is a linear scale. This scale is used to draw the y-axis. 
-    .domain([0, d3.max(data, function(d) { return d.total;})]) /// Similarly to the time scale,this scale has a domain as well. 
+var x = d3.scale.linear() /// This is a linear scale. This scale is used to draw the x-axis. 
+    .domain([0, d3.max(Quantity, function(d) { return d.total;})]) /// Similarly to the time scale,this scale has a domain as well. 
     ///The domain start at 0 and continues to the largest number in JSON array. d3.max is a function in D3 that allows to determine the largest number in the array.
     //// function(d) { return d.total;} -- this function extracts all values with the key total from the data.
     .range([height - margin.top - margin.bottom, 0]); /// this scale has a range, not a rangeBound. The range extends from the max height to 0
 
+var y = d3.scale.ordinal() /// D3 has multiple scales (I will discuss scales later in this lesson). This is a time scale. this scale is used to draw the x-axis.Pay attention to how we specify domain and rangeBound for this scale. rangeBound you can find only in time scales
+    .domain([new Date(data[0].fruits), d3.time.day.offset(new Date(data[data.length - 1].fruits), 1)])/// domain is an array that contains the beginning of the range and the end of the range. new Date(XXX) in Javascript means a date.
+    /// data[0].fruits is a reference to the first value in our JSON array.
+    .rangeRound([0, width - margin.left - margin.right]); /// the rangeBound extends from 0 to the maximum width (width-margins!!!).
+
 var xAxis = d3.svg.axis() /// Specification for xAxis
     .scale(x) // link to x scale
     .orient('bottom') /// position
-    .ticks(d3.time.days, 1) /// Change this to .ticks(d3.time.days, 3). Observe what happens. 
-    //The ticks method will split your domain in (more or less) n convenient, 
-    //human-readable values, and return an array of these values. This is especially useful to label axes. 
-    //Passing these values to the scale allows them to position ticks nicely on an axis.
-    .tickFormat(d3.time.format('%m-%d-%Y')) /// d3.time.format('%m-%d-%Y') is a function in d3.js You can read more about it here: https://github.com/mbostock/d3/wiki/Time-Formatting
-    /// try to change this format to day of the year as a decimal number [001,366].
     .tickSize(0) /// tickSize is specified in pixels. tickSize and tickPadding are similar to CSS.
     ///tickPadding pushes elements in, away from the edges of the SVG, to prevent them from being clipped. 
     .tickPadding(8);
@@ -67,8 +61,8 @@ var yAxis = d3.svg.axis() /// Specification for yAxis
     .orient('left')
     .tickPadding(8);
     
-var svg = d3.select('#bar-demo').append('svg') /// append an SVG chart to the div with id #bar-demo
-    .attr('class', 'chart') /// Attach a CSS class (see styles above). This class can have any oher name
+var svg = d3.select('#chart').append('svg') /// append an SVG chart to the div with id #bar-demo
+    .attr('class', 'chart') /// Attach a CSS class (see styles above). This class can have any other name
     .attr('width', width) // a reference to width which was specified earlier in this file.This is the width of the SVG image.
     .attr('height', height) // a reference to height which was specified earlier in this file.This is the height of the SVG image.
     .append('g') /// here we specify that the chart will conatin a group of elements
@@ -110,11 +104,9 @@ svg.selectAll('.chart') /// Here we select the CSS class chart. (Remember we ass
 </head>
 
 <body>
-<div id="chart">
 <p>Pratice Assignment 1</p>
+<div id="chart">
 </div>
-
-
 
 </body>
 </html>
