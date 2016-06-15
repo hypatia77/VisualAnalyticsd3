@@ -1,17 +1,19 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
   <title></title>
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 
-  <script type="text/javascript" src="http://d3js.org/d3.v3.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <style>
 
 body {
   font: 10px sans-serif;
 }
+
   .chart {
     font-family: Arial, sans-serif;
     font-size: 10px;
@@ -19,94 +21,106 @@ body {
 
   .axis path, .axis line {
     fill: none;
-    stroke: #0000ff;
+    stroke: #000;
     shape-rendering: crispEdges;
   }
 
   .bar {
     fill: steelblue;
-    z-index: 1000;
   }
 </style>
+</head>
 
 <script type="text/javascript">
-$(document).ready(function(){ /// jQuery function that starts JavaScript when DOM loads
-/// Data in JSON format. In this type of JSON variables before ":" are called keys, after semicolon are called values.
-   var data=[{"Quantity":"100","fruits":"Apples"},{"Quantity":"60","fruits":"Pears"},{"Quantity":"70","fruits":"Tangerines"},{"Quantity":"90","fruits":"Pomegranates"},{"Quantity":"50","fruits":"Oranges"}];
+$(document).ready(function(){
+   var data=[{"Quantity":100,"fruits":"Apples"},{"Quantity":60,"fruits":"Pears"},{"Quantity":70,"fruits":"Tangerines"},{"Quantity":90,"fruits":"Pomegranates"},{"Quantity":50,"fruits":"Oranges"}];
 
-var margin = {top: 40, right: 40, bottom: 40, left:40}, //// The concept of margins is best explained here: http://bl.ocks.org/mbostock/3019563
+var margin = {top: 5, right: 20, bottom: 50, left:100}, //// The concept of margins is best explained here: http://bl.ocks.org/mbostock/3019563
     width = 600, ///width and height of the SVG image 
     height = 500;
+var barHeight = 20;
 
-var x = d3.scale.linear() /// This is a linear scale. This scale is used to draw the x-axis. 
-    .domain([0, d3.max(Quantity, function(d) { return d.total;})]) /// Similarly to the time scale,this scale has a domain as well. 
-    ///The domain start at 0 and continues to the largest number in JSON array. d3.max is a function in D3 that allows to determine the largest number in the array.
-    //// function(d) { return d.total;} -- this function extracts all values with the key total from the data.
-    .range([height - margin.top - margin.bottom, 0]); /// this scale has a range, not a rangeBound. The range extends from the max height to 0
 
-var y = d3.scale.ordinal() /// D3 has multiple scales (I will discuss scales later in this lesson). This is a time scale. this scale is used to draw the x-axis.Pay attention to how we specify domain and rangeBound for this scale. rangeBound you can find only in time scales
-    .domain([new Date(data[0].fruits), d3.time.day.offset(new Date(data[data.length - 1].fruits), 1)])/// domain is an array that contains the beginning of the range and the end of the range. new Date(XXX) in Javascript means a date.
-    /// data[0].fruits is a reference to the first value in our JSON array.
-    .rangeRound([0, width - margin.left - margin.right]); /// the rangeBound extends from 0 to the maximum width (width-margins!!!).
 
-var xAxis = d3.svg.axis() /// Specification for xAxis
-    .scale(x) // link to x scale
-    .orient('bottom') /// position
-    .tickSize(0) /// tickSize is specified in pixels. tickSize and tickPadding are similar to CSS.
-    ///tickPadding pushes elements in, away from the edges of the SVG, to prevent them from being clipped. 
+var x = d3.scale.linear()
+    .domain([0, d3.max(data, function(d) 
+    { 
+      return d.Quantity; 
+    })])
+    .range([0, height - margin.top - margin.bottom]);
+
+var y = d3.scale.ordinal()
+      .domain(data.map(function(d)
+    {
+      return d.fruits;
+    }))
+      .rangePoints([height - margin.top - margin.bottom, 0]);
+
+var chart = d3.select(".chart")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");  
+	  
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .tickSize(6)
     .tickPadding(8);
 
-var yAxis = d3.svg.axis() /// Specification for yAxis
-    .scale(y) // link to y scale
+var yAxis = d3.svg.axis()
+    .scale(y)
     .orient('left')
     .tickPadding(8);
-    
-var svg = d3.select('#chart').append('svg') /// append an SVG chart to the div with id #bar-demo
-    .attr('class', 'chart') /// Attach a CSS class (see styles above). This class can have any other name
-    .attr('width', width) // a reference to width which was specified earlier in this file.This is the width of the SVG image.
-    .attr('height', height) // a reference to height which was specified earlier in this file.This is the height of the SVG image.
-    .append('g') /// here we specify that the chart will conatin a group of elements
-    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')'); /// the position of the chart should start not at 0,0,but at 40,40.
+	
+var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);	
+		
+var chart = d3.select(".charts").append("svg")
+    .attr("class", "chart")
+    .attr("width", width * data.length)
+    .attr("height", height);		
 
-            
-svg.append('g') /// Append xAxis as a group
-    .attr('class', 'axis') /// A reference to a CSS class
-    .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')') ///position
-    .call(xAxis); //A reference to xAxis
-    
-svg.append('g') /// Append yAxis
-  .attr('class', 'axis') ///A reference to a CSS class
-  .call(yAxis); //Reference to yAxis
+var svg = d3.select('#Practice1').append('svg')
+    .attr('class', 'chart')
+    .attr('width', width)
+    .attr('height', height)
+  .append('g')
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-svg.selectAll('.chart') /// Here we select the CSS class chart. (Remember we assigned it earlier?)
-    .data(data) //Bind the chart to data.
-    .enter()
-    .append('rect') // add SVG rectangles
-    .attr('class', 'bar') // Add a CSS class
-    .attr('x', function(d) { return x(new Date(d.date)); }) /// A reference to valriables on x scale
-    .attr('y', function(d) { return height - margin.top - margin.bottom - (height - margin.top - margin.bottom - y(d.total)) })
-    /// Specification how tall bars should be in pixels
-    .attr('width', 25) // Width of bar charts
-    .attr('height', function(d) { return height - margin.top - margin.bottom - y(d.total) }); //height of bars in pixel
+chart.selectAll("rect")
+    .data(data)
+  .enter().append("rect")
+    .attr("x", function(d, i) { return x(i) - .5; })
+    .attr("y", function(d) { return height - y(d) - .5; })
+    .attr("width", width)
+    .attr("height", function(d) { return y(d); } );
 
- svg.selectAll(".rect") /// select all DOM elements that have rect class
+                              
+svg.append('g')
+    .attr('class', 'x axis')
+     .attr('transform', 'translate(0,' + (height - margin.bottom - margin.top) + ')')
+    .call(xAxis);
+	
+ svg.selectAll(".bar") /// select all DOM elements that have rect class
      .data(data) /// bind to data
    .enter().append("svg:text") //append text labels with values
-     .attr("x", function(d) { return x(new Date(d.date)); }) // position
-     .attr("y", function(d) { return y(d.total); })/// position of the text label
-     .attr("dx", "0.5em") // padding-right
-     .attr("dy", "1.50em") // padding-left
+     .attr("x", function(d) { return x(d.Quantity); }) // position
+     .attr("y", function(d) { return y(d.fruits); })/// position of the text label
+	.attr("dx", "3.2em") // padding-horizontal
+     .attr("dy", "1.75em") // padding-vertical
      .attr("text-anchor", "left") // text-align: left
-     .text(function(d) { return d.total }); /// Text		
+     .text(function(d) { return d.Quantity }) /// Text	
+	 		.style("fill", "blue" );
+	
+
+svg.append('g')
+  .attr('class', 'y axis')
+  .call(yAxis); /// Text
+  
+
 });
 
 </script>
-</head>
-
 <body>
-<p>Pratice Assignment 1</p>
-<div id="chart">
-</div>
-
-</body>
-</html>
