@@ -56,12 +56,6 @@ var y = d3.scale.ordinal()
     }))
       .rangePoints([height - margin.top - margin.bottom, 0]);
 
-var chart = d3.select(".chart")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");  
-	  
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient('bottom')
@@ -73,31 +67,22 @@ var yAxis = d3.svg.axis()
     .orient('left')
     .tickPadding(8);
 	
-var svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height);	
-		
-var chart = d3.select(".charts").append("svg")
-    .attr("class", "chart")
-    .attr("width", width * data.length)
-    .attr("height", height);		
-
 var svg = d3.select('#Practice1').append('svg')
     .attr('class', 'chart')
-    .attr('width', width)
+    .attr('width', width+margin.left+margin.right)
     .attr('height', height)
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-chart.selectAll("rect")
+	
+svg.selectAll("rect")
     .data(data)
   .enter().append("rect")
-    .attr("x", function(d, i) { return x(i) - .5; })
-    .attr("y", function(d) { return height - y(d) - .5; })
-    .attr("width", width)
-    .attr("height", function(d) { return y(d); } );
+    .attr("x", function(d, i) { return x(0); })
+    .attr("y", function(d) { return y(d.fruits) - barHeight/2; })
+    .attr("width", function(d) {return x(d.Quantity)})
+    .attr("height", barHeight)	
+.style("fill", "blue");
 
-                              
 svg.append('g')
     .attr('class', 'x axis')
      .attr('transform', 'translate(0,' + (height - margin.bottom - margin.top) + ')')
