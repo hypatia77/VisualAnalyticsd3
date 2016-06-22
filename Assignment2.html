@@ -2,103 +2,289 @@
 <meta charset="utf-8">
 <style>
 
-svg {
-  display: block;
-  margin: auto;
+.node {
+  cursor: pointer;
 }
 
 .node circle {
-  fill: #bcbddc;
-  stroke: #756bb1;
-  stroke-width: 2.5px;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
 }
 
-.node {
-  font-family: verdana, sans-serif;
-  font-size: 11px;
-  font-weight: bold;
-  fill: #6B4226;
+.node text {
+  font: 10px sans-serif;
 }
 
 .link {
   fill: none;
-  stroke: #BFBFBF;
-  stroke-width: 2px;
+  stroke: #ccc;
+  stroke-width: 1.5px;
 }
+
 
 </style>
 <body>
- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
- <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<h3 style="text-align:center">Family Tree</h3>
 <script>
 
-var root = {"name" : "Kiana Minkle", "children" : [
-                    {"name" : "Diana Phillips", "children" : [
-			    {"name" : "Mary Martin", "children" : [
-			   				  {"name" : "Ethel Oehring"},
-			    				{"name" : "Lee Martin"},
-                  ] },
-			    {"name" : "Jackie Phillips", "children" : [
-			   				 {"name" : "Irene Hufferd"},
-			    			 {"name" : "Ruby Phillips"},
-                  ] },
-			   ] },
-		   						  {"name" : "Robert Minkle", "children" : [
-			    {"name" : "Marilyn Boch", "children" : [
-			   				  {"name" : "William Boch"},
-			    				{"name" : "Dorothy Hall"},
-                  ] },
-			    {"name" : "George Minkle", "children" : [
-			   				  {"name" : "Albert Minkle"},
-			    				{"name" : "Alice Demeritt"},
-                  ] },
-			    ] },
-          		 ] };
+json = {
+    "name": "Kiana Minkle",
+    "parent": "null",
+    "value": 10,
+    "type": "black",
+    "level": "purple",
+    "children": [
+      {
+        "name": "Robert Minkle",
+        "parent": "Kiana Cassidy",
+        "value": 15,
+        "type": "black",
+        "level": "blue",
+        "children": [
+          {
+            "name": "George Minkle",
+			"parent": "Robert Minkle",
+            "value": 5,
+            "type": "black",
+            "level": "blue",
+			"children": [
+		{
+            "name": "Albert Minkle",
+			"parent": "George Minkle",
+            "value": 5,
+            "type": "black",
+            "level": "blue"
+          },
+          {
+            "name": "Alice Demeritt",
+            "parent": "George Minkle",
+            "value": 8,
+            "type": "black",
+            "level": "purple"
+          }
+        ]
+          },
+          {
+            "name": "Marilyn Boch",
+            "parent": "Robert Minkle",
+            "value": 8,
+            "type": "black",
+            "level": "purple",
+			"children": [
+          {
+            "name": "William Boch",
+			"parent": "Marilyn Boch",
+            "value": 5,
+            "type": "black",
+            "level": "blue"
+          },
+          {
+            "name": "Dorothy Hall",
+            "parent": "Marilyn Boch",
+            "value": 8,
+            "type": "black",
+            "level": "purple"
+          }
+        ]
+          }
+        ]
+      },
+      {
+        "name": "Diana Phillips",
+        "parent": "Kiana Cassidy",
+        "value": 10,
+        "type": "black",
+        "level": "purple",
+		"children": [
+          {
+            "name": "Jackie Phillips",
+			"parent": "Diana Phillips",
+            "value": 5,
+            "type": "black",
+            "level": "blue",
+			"children": [
+          {
+            "name": "Ruby Phillips",
+			"parent": "Jackie Phillips",
+            "value": 5,
+            "type": "black",
+            "level": "blue"
+          },
+          {
+            "name": "Irene Hufferd",
+            "parent": "Jackie Phillips",
+            "value": 8,
+            "type": "black",
+            "level": "purple"
+			    }
+        ]
+          },
+          {
+            "name": "Mary Martin",
+            "parent": "Diana Phillips",
+            "value": 8,
+            "type": "black",
+            "level": "purple",
+			"children": [
+          {
+            "name": "Lee Martin",
+			"parent": "Mary Martin",
+            "value": 5,
+            "type": "black",
+            "level": "blue"
+          },
+          {
+            "name": "Ethel Oehring",
+            "parent": "Mary Martin",
+            "value": 8,
+            "type": "black",
+            "level": "purple"
+          }
+        ]
+          }
+        ]
+      }
+    ]
+  };
+				 
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+    width = 960 - margin.right - margin.left,
+    height = 800 - margin.top - margin.bottom;
 
-
-var diameter = 760;
+var i = 0,
+    duration = 750,
+    root;
 
 var tree = d3.layout.tree()
-    .size([360, diameter / 2 - 190])
-    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+    .size([height, width]);
 
-var diagonal = d3.svg.diagonal.radial()
-    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
 
 var svg = d3.select("body").append("svg")
-    .attr("width", diameter + 20)
-    .attr("height", diameter - 40)
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var nodes = tree.nodes(root),
+  root = json;
+  root.x0 = height / 2;
+  root.y0 = 0;
+ 
+  function collapse(d) {
+    if (d.children) {
+      d._children = d.children;
+      d._children.forEach(collapse);
+      d.children = null;
+    }
+  }
+
+  root.children.forEach(collapse);
+  update(root);
+
+d3.select(self.frameElement).style("height", "800px");
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
       links = tree.links(nodes);
 
-  var link = svg.selectAll(".link")
-      .data(links)
-    .enter().append("path")
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+  // Update the nodes…
+  var node = svg.selectAll("g.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter any new nodes at the parent's previous position.
+  var nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+      .on("click", click);
+
+   nodeEnter.append("circle")
+   .attr("r", function(d) { return d.value; })
+   .style("stroke", function(d) { return d.type; })
+   .style("fill", function(d) { return d.level; });
+
+  nodeEnter.append("text")
+      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .text(function(d) { return d.name; })
+      .style("fill-opacity", 1e-6);
+
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeUpdate.select("text")
+      .style("fill-opacity", 1);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .remove();
+
+  nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+  nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+
+  // Update the links…
+  var link = svg.selectAll("path.link")
+      .data(links, function(d) { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("path", "g")
       .attr("class", "link")
+      .attr("d", function(d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal({source: o, target: o});
+      });
+
+  // Transition links to their new position.
+  link.transition()
+      .duration(duration)
       .attr("d", diagonal);
 
-  var node = svg.selectAll(".node")
-      .data(nodes)
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+      .duration(duration)
+      .attr("d", function(d) {
+        var o = {x: source.x, y: source.y};
+        return diagonal({source: o, target: o});
+      })
+      .remove();
 
-  node.append("circle")
-      .attr("r", 5);
+  // Stash the old positions for transition.
+  nodes.forEach(function(d) {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+}
 
-  node.append("text")
-      .attr("dy", ".31em")
-      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-      .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-      .text(function(d) { return d.name; });
-
-d3.select(self.frameElement).style("height", diameter - 150 + "px");
+// Toggle children on click.
+function click(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+  update(d);
+}
 
 </script>
-<h3 style="text-align:center">Family Tree</h3>
-</body>
-<html>
