@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html>
+<head>
 <meta charset="utf-8">
 <style>
 
@@ -21,13 +23,36 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+  #menu {
+position: relative;
+width: 20%;
+}
+
+#visuals {
+position: relative;
+width: 80%;
+top: 50px; 
+left: 25px;
+}
 
 
 </style>
-<body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+<div id="menu">
+
+<a href="http://link to assignment 1">Assignment 1: Bar Chart</a>
+<a href="http://link to assignment 2">Assignment 2: Family Tree</a>
+<a href="http://link to assignment 3">Assignment 3: Time Spent in the States</a>
+<a href="http://link to assignment 4">Assignment 4: Dashboard</a>
+</div>
+
+<div id="visuals">
+
 <h3 style="text-align:center">Family Tree</h3>
+
 <script>
 
 json = {
@@ -288,3 +313,6 @@ function click(d) {
 }
 
 </script>
+</div>
+</body>
+</html>

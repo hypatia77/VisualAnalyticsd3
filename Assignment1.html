@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title></title>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <style>
+
+body {
+  font: 10px sans-serif;
+}
+
+  .chart {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .bar {
+    fill: steelblue;
+  }
+  
+  #menu {
+position: relative;
+width: 20%;
+}
+
+#visuals {
+position: relative;
+width: 80%;
+top: 50px; 
+left: 25px;
+}
+</style>
+</head>
+<body>
+<div id="menu">
+
+<a href="http://link to assignment 1">Assignment 1: Bar Chart</a>
+<a href="http://link to assignment 2">Assignment 2: Family Tree</a>
+<a href="http://link to assignment 3">Assignment 3: Time Spent in the States</a>
+<a href="http://link to assignment 4">Assignment 4: Dashboard</a>
+</div>
+<div id="visuals">
+<script type="text/javascript">
+$(document).ready(function(){
+   var data=[{"Quantity":100,"fruits":"Apples"},{"Quantity":60,"fruits":"Pears"},{"Quantity":70,"fruits":"Tangerines"},{"Quantity":90,"fruits":"Pomegranates"},{"Quantity":50,"fruits":"Oranges"}];
+
+var margin = {top: 5, right: 20, bottom: 50, left:100}, 
+    width = 600, ///width and height of the SVG image 
+    height = 500;
+var barHeight = 20;
+
+
+
+var x = d3.scale.linear()
+    .domain([0, d3.max(data, function(d) 
+    { 
+      return d.Quantity; 
+    })])
+    .range([0, height - margin.top - margin.bottom]);
+
+var y = d3.scale.ordinal()
+      .domain(data.map(function(d)
+    {
+      return d.fruits;
+    }))
+      .rangePoints([height - margin.top - margin.bottom, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .tickSize(6)
+    .tickPadding(8);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient('left')
+    .tickPadding(8);
+	
+var svg = d3.select('#Practice1').append('svg')
+    .attr('class', 'chart')
+    .attr('width', width+margin.left+margin.right)
+    .attr('height', height)
+  .append('g')
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+	
+svg.selectAll("rect")
+    .data(data)
+  .enter().append("rect")
+    .attr("x", function(d, i) { return x(0); })
+    .attr("y", function(d) { return y(d.fruits) - barHeight/2; })
+    .attr("width", function(d) {return x(d.Quantity)})
+    .attr("height", barHeight)	
+.style("fill", "blue");
+
+svg.append('g')
+    .attr('class', 'x axis')
+     .attr('transform', 'translate(0,' + (height - margin.bottom - margin.top) + ')')
+    .call(xAxis);
+	
+ svg.selectAll(".bar") /// select all DOM elements that have rect class
+     .data(data) /// bind to data
+   .enter().append("svg:text") //append text labels with values
+     .attr("x", function(d) { return x(d.Quantity); }) // position
+     .attr("y", function(d) { return y(d.fruits); })/// position of the text label
+	.attr("dx", "3.2em") // padding-horizontal
+     .attr("dy", "1.75em") // padding-vertical
+     .attr("text-anchor", "left") // text-align: left
+     .text(function(d) { return d.Quantity }) /// Text	
+	 		.style("fill", "blue" );
+	
+
+svg.append('g')
+  .attr('class', 'y axis')
+  .call(yAxis); /// Text
+  
+
+});
+
+</script> 
+</div>
+
+</body>
+</html>
