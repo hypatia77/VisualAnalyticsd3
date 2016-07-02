@@ -28,6 +28,7 @@ body {
   .bar {
     fill: steelblue;
   }
+  
 #main {
 position:absolute;
 top:0;
@@ -46,6 +47,7 @@ float: left;
 border:1px solid black;
 z-index:1;
 }
+
 #visuals {
 position: relative;
 left:22%;
@@ -54,19 +56,25 @@ height:100%;
 border:1px solid blue;
 z-index:1;
 }
+
 </style>
+<script type="text/javascript">
+</script> 
 </head>
 <body>
 <div id="menu">
 
-<a href="http://link to assignment 1">Assignment 1: Bar Chart</a>
-<a href="http://link to assignment 2">Assignment 2: Family Tree</a>
-<a href="http://link to assignment 3">Assignment 3: Time Spent in the States</a>
-<a href="http://link to assignment 4">Assignment 4: Dashboard</a>
+<ul>
+    <li><a href="https://github.com/hypatia77/VisualAnalyticsd3/blob/master/index.html">Home</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment1.html">Assignment 1: Bar Chart</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment2.html">Assignment 2: Family Tree</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment3.html">Assignment 3: Time Spent in the States</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment4.html">Assignment 4: Dashboard</a></li>
+  <ul>
 </div>
 <div id="visuals">
-<script type="text/javascript">
-$(document).ready(function(){
+<script>
+	$(document).ready(function(){
    var data=[{"Quantity":100,"fruits":"Apples"},{"Quantity":60,"fruits":"Pears"},{"Quantity":70,"fruits":"Tangerines"},{"Quantity":90,"fruits":"Pomegranates"},{"Quantity":50,"fruits":"Oranges"}];
 
 var margin = {top: 5, right: 20, bottom: 50, left:100}, 
@@ -141,7 +149,7 @@ svg.append('g')
 
 });
 
-</script> 
+</script>
 </div>
 
 </body>
