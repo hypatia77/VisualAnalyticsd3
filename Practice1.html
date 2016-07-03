@@ -29,6 +29,34 @@ body {
     fill: steelblue;
     z-index: 1000;
   }
+  
+  #menu {
+position: relative;
+width: 20%;
+height: 100%;
+float: left;
+border:1px solid black;
+z-index:1;
+}
+
+#visuals {
+position: relative;
+left:22%;
+width:75%;
+height:100%;
+border:1px solid blue;
+z-index:1;
+}
+
+#main {
+position:absolute;
+top:0;
+left:0;
+bottom:0;
+width:100%;
+height:100%; 
+z-index:0;
+}
 </style>
 
 <script type="text/javascript">
@@ -117,9 +145,25 @@ svg.append("text")
 
 </script>
 
+
 </head>
 	<body>
+		<div id="main">
+
+<div id="menu">
+  <ul>
+    <li><a href="https://github.com/hypatia77/VisualAnalyticsd3/blob/master/index.html">Home</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment1.html">Assignment 1: Bar Chart</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment2.html">Assignment 2: Family Tree</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment3.html">Assignment 3: Time Spent in the States</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment4.html">Assignment 4: Dashboard</a></li>
+  <ul>
+</div>
+
+<div id="visuals">
 	<div id="bar-demo"  style="position: relative; top: 3px; left: 20px;"></div>
-	
+
+</div>
+</div>
 </body>
 </html>
