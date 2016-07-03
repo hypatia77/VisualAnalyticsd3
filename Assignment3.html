@@ -140,14 +140,14 @@ svg.append("g")
       .attr("d", path)
       .style("fill", function(d){return color_scale(data[0][d.id]);});
            
-var legend = svg.selectAll('g.legendText')
+var legend = svg.selectAll('g.legendEntry')
     .data(color_scale.range().reverse())
     .enter()
-    .append('g').attr('class', 'legendText');
+    .append('g').attr('class', 'legendEntry');
 
 legend
     .append('rect')
-    .attr("x", width - 100)
+    .attr("x", width -900)
     .attr("y", function(d, i) {
        return i * 20;
     })
