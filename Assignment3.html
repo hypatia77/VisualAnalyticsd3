@@ -24,17 +24,31 @@ stroke:black;
   stroke: black;
   stroke-width: 0.5px;
 }
-
-  #menu {
-position: relative;
-width: 20%;
+#main {
+position:absolute;
+top:0;
+left:0;
+bottom:0;
+width:100%;
+height:100%; 
+z-index:0;
 }
 
+#menu {
+position: relative;
+width: 20%;
+height: 100%;
+float: left;
+border:1px solid black;
+z-index:1;
+}
 #visuals {
 position: relative;
-width: 80%;
-top: 50px; 
-left: 25px;
+left:22%;
+width:75%;
+height:100%;
+border:1px solid blue;
+z-index:1;
 }
 </style>
 <script src="http://d3js.org/d3.v3.js"></script>
@@ -43,6 +57,7 @@ left: 25px;
 
 </head>
 <body>
+  <div id="main">
 <div id="menu">
 <a href="http://link home>Home</a>
 <a href="http://link to assignment 1">Assignment 1: Bar Chart</a>
@@ -131,6 +146,7 @@ legend
 }
 </script>
 </div>
+</div></a>
 </body>
 
 </html>
