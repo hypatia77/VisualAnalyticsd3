@@ -6,8 +6,15 @@
 .map {
 	position: absolute;
 	float: right;
-	left:500px;
+	left:450px;
+	top:100px;
 }
+.legend {
+	position: absolute;
+	left:250px;
+	top:100px;
+}
+
 .circle{
 fill: #737CA1;	
 stroke:black;	
@@ -138,6 +145,7 @@ var legend = svg.selectAll('g.legendText')
 
 legend
     .append('rect')
+    .attr("class", "legend")
     .attr("x", width - 100)
     .attr("y", function(d, i) {
        return i * 20;
