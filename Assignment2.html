@@ -23,16 +23,32 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
-  #menu {
-position: relative;
-width: 20%;
+
+#main {
+position:absolute;
+top:0;
+left:0;
+bottom:0;
+width:100%;
+height:100%; 
+z-index:0;
 }
 
+#menu {
+position: relative;
+width: 20%;
+height: 100%;
+float: left;
+border:1px solid black;
+z-index:1;
+}
 #visuals {
 position: relative;
-width: 80%;
-top: 50px; 
-left: 25px;
+left:22%;
+width:75%;
+height:100%;
+border:1px solid blue;
+z-index:1;
 }
 
 
@@ -41,12 +57,15 @@ left: 25px;
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
 <body>
+	<div id="main">
 <div id="menu">
-
-<a href="http://link to assignment 1">Assignment 1: Bar Chart</a>
-<a href="http://link to assignment 2">Assignment 2: Family Tree</a>
-<a href="http://link to assignment 3">Assignment 3: Time Spent in the States</a>
-<a href="http://link to assignment 4">Assignment 4: Dashboard</a>
+<ul>
+    <li><a href="/VisualAnalyticsd3/index.html">Home</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment1.html">Assignment 1: Bar Chart</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment2.html">Assignment 2: Family Tree</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment3.html">Assignment 3: Time Spent in the States</a></li>
+    <li><a href="/VisualAnalyticsd3/Assignment4.html">Assignment 4: Dashboard</a></li>
+  <ul>
 </div>
 
 <div id="visuals">
@@ -313,6 +332,7 @@ function click(d) {
 }
 
 </script>
+</div>
 </div>
 </body>
 </html>
