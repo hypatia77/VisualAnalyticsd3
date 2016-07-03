@@ -142,7 +142,7 @@ var legend = svg.selectAll('g.legendEntry')
 
 legend
     .append('rect')
-    .attr("x", width - 900)
+    .attr("x", width - 1000)
     .attr("y", function(d, i) {
        return i * 20;
     })
@@ -155,11 +155,11 @@ legend
   legend
   	.append('text')
 	.data(legendText)
-      	  .attr("x", width - 890)
+      	  .attr("x", width - 990)
       	  .attr("y", function(d, i) {
        return i * 20;
     })
-      	  .attr("dy", ".35em")
+      	  .attr("dy", ".8em")
       	  .text(function(d) { return d; });
 }
 </script>
