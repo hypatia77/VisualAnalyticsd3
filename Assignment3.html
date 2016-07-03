@@ -5,8 +5,7 @@
 <style>
 .map {
 	position: absolute;
-	float: right;
-	left:450px;
+	left:28%;
 	top:100px;
 }
 .legend {
@@ -157,7 +156,7 @@ legend
    .style("fill", function(d){return d;}); 
 
 legend
-    .append('legendText')
+    .append('g.legendText')
     .attr("class", "legend")
     .attr("x", width - 75) //leave 5 pixel space after the <rect>
     .attr("y", function(d, i) {
