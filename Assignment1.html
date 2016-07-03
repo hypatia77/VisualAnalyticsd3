@@ -71,7 +71,7 @@ $(document).ready(function(){ /// jQuery function that starts JavaScript when DO
    var data = [{"date":"2016-06-01","total":500},{"date":"2016-06-02","total":1200},{"date":"2016-06-03","total":684},{"date":"2016-06-04","total":200},{"date":"2016-06-05","total":1042},{"date":"2016-06-06","total":749},{"date":"2016-06-07","total":100}];
 
 var margin = {top: 40, right: 40, bottom: 40, left:40}, //// The concept of margins is best explained here: http://bl.ocks.org/mbostock/3019563
-    width = 600, ///width and height of the SVG image 
+    width = 800, ///width and height of the SVG image 
     height = 500;
 
 var x = d3.time.scale() /// D3 has multiple scales (I will discuss scales later in this lesson). This is a time scale. this scale is used to draw the x-axis.Pay attention to how we specify domain and rangeBound for this scale. rangeBound you can find only in time scales
@@ -103,7 +103,7 @@ var yAxis = d3.svg.axis() /// Specification for yAxis
     .orient('left')
     .tickPadding(8);
     
-var svg = d3.select('#bar-demo').append('svg') /// append an SVG chart to the div with id #bar-demo
+var svg = d3.select('#visuals').append('svg') /// append an SVG chart to the div with id #bar-demo
     .attr('class', 'chart') /// Attach a CSS class (see styles above). This class can have any oher name
     .attr('width', width) // a reference to width which was specified earlier in this file.This is the width of the SVG image.
     .attr('height', height) // a reference to height which was specified earlier in this file.This is the height of the SVG image.
@@ -167,7 +167,6 @@ svg.append("text")
 </div>
 
 <div id="visuals">
-	<div id="bar-demo"  style="position: relative; top: 3px; left: 20px;"></div>
 
 </div>
 </div>
