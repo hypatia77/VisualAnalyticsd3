@@ -143,7 +143,7 @@ svg.append("g")
 var legend = svg.selectAll('g.legendEntry')
     .data(color_scale.range().reverse())
     .enter()
-    .append('g').attr('class', 'legendEntry');
+    .append('g').attr('class', 'legend');
 
 legend
     .append('rect')
