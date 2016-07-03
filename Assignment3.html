@@ -5,8 +5,8 @@
 <style>
 .map {
 	position: absolute;
-	float:right;
-	
+	float: right;
+	left:500px;
 }
 .circle{
 fill: #737CA1;	
@@ -131,10 +131,10 @@ svg.append("g")
       .attr("d", path)
       .style("fill", function(d){return color_scale(data[0][d.id]);});
            
-var legend = svg.selectAll('g.legendEntry')
+var legend = svg.selectAll('g.legendText')
     .data(color_scale.range().reverse())
     .enter()
-    .append('g').attr('class', 'legendEntry');
+    .append('g').attr('class', 'legendText');
 
 legend
     .append('rect')
