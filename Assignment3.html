@@ -9,9 +9,6 @@
 	top:100px;
 }
 
-.legendEntry {
-}
-
 .circle{
 fill: #737CA1;	
 stroke:black;	
@@ -142,7 +139,7 @@ var legend = svg.selectAll('g.legendEntry')
 
 legend
     .append('rect')
-    .attr("x", width - 875)
+    .attr("x", width - 910)
     .attr("y", function(d, i) {
        return i * 20;
     })
@@ -155,7 +152,7 @@ legend
   legend
   	.append('text')
 	.data(legendText)
-      	  .attr("x", width - 950)
+      	  .attr("x", width - 895)
       	  .attr("y", function(d, i) {
        return i * 20;
     })
