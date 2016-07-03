@@ -123,7 +123,8 @@ var svg = d3.select("body").append("svg")
 queue()
     .defer(d3.json, "us.json")
     .await(ready);
-
+    
+function ready(error, us, airports) {
   svg.append("path")
       .datum(topojson.feature(us, us.objects.land))
       .attr("class", "land")
@@ -153,14 +154,14 @@ legend
    .style("stroke", "black")
    .style("stroke-width", 1)
    .style("fill", function(d){return d;}); 
-
+   
     legend.append("text")
 	 .data(legendText)
       	  .attr("x", 24)
       	  .attr("y", 9)
       	  .attr("dy", ".35em")
       	  .text(function(d) { return d; });
-
+}
 </script>
 </div>
 </div>
