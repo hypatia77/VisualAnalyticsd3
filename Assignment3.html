@@ -3,7 +3,11 @@
 <head>
 <meta charset="utf-8">
 <style>
-
+.map {
+	position: absolute;
+	float:right;
+	
+}
 .circle{
 fill: #737CA1;	
 stroke:black;	
@@ -105,6 +109,7 @@ var path = d3.geo.path()
     .pointRadius(function(d){return Math.floor(d[1]/14);});
 
 var svg = d3.select("body").append("svg")
+    .attr("class", "map")
     .attr("width", width)
     .attr("height", height);
 
@@ -144,7 +149,7 @@ legend
    .style("fill", function(d){return d;}); 
 
 legend
-    .append('text')
+    .append('legendText')
     .attr("x", width - 75) //leave 5 pixel space after the <rect>
     .attr("y", function(d, i) {
        return i * 20;
