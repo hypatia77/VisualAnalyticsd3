@@ -102,7 +102,7 @@ var path = d3.geo.path()
     .pointRadius(function(d){return Math.floor(d[1]/14);});
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width)
+    .attr("width", width - 300)
     .attr("height", height);
 
 queue()
@@ -142,7 +142,7 @@ legend
 
 legend
     .append('text')
-    .attr("x", width - 300) //leave 5 pixel space after the <rect>
+    .attr("x", width - 75) //leave 5 pixel space after the <rect>
     .attr("y", function(d, i) {
        return i * 20;
     })
