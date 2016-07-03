@@ -19,6 +19,21 @@ svg {
 .node text {
   font: 10px sans-serif;
 }
+
+.tooltip {
+      background: #eee;
+      box - shadow: 0 0 5 px #999999;                                    
+        color: # 333;
+      display: none;
+      font - size: 12 px;
+      left: 15 px;
+      padding: 10 px;
+      position: absolute;
+      text - align: center;
+      top: 10 px;
+      width: 80 px;
+      z - index: 10;
+  }
 .link {
   fill: none;
   stroke: #ccc;
@@ -139,21 +154,24 @@ json = {
         "level": "purple",
 		"children": [
           {
-            "name": "Jackie Phillips",
+            "name": "Jackie Phillips",  [
+                  {"name": "State born in", "info": "Texas",},
 			"parent": "Diana Phillips",
             "value": 5,
             "type": "black",
             "level": "blue",
 			"children": [
           {
-            "name": "Ruby Phillips",
+            "name": "Ruby Phillips",  [
+                  {"name": "State born in", "info": "Texas",},
 			"parent": "Jackie Phillips",
             "value": 5,
             "type": "black",
             "level": "blue"
           },
           {
-            "name": "Irene Hufferd",
+            "name": "Irene Hufferd",  [
+                  {"name": "State born in", "info": "Illinois",},
             "parent": "Jackie Phillips",
             "value": 8,
             "type": "black",
@@ -162,26 +180,28 @@ json = {
         ]
           },
           {
-            "name": "Mary Martin",
+            "name": "Mary Martin",  [
+                  {"name": "State born in", "info": "Missouri",},
             "parent": "Diana Phillips",
             "value": 8,
             "type": "black",
             "level": "purple",
 			"children": [
           {
-            "name": "Lee Martin",
+            "name": "Lee Martin",  [
+                  {"name": "State born in", "info": "Missouri",},
 			"parent": "Mary Martin",
             "value": 5,
             "type": "black",
             "level": "blue"
           },
           {
-            "name": "Ethel Oehring",
+            "name": "Ethel Oehring", "children": [
+                  {"name": "State born in", "info": "Missouri",},
             "parent": "Mary Martin",
             "value": 8,
             "type": "black",
             "level": "purple"
-          }
         ]
           }
         ]
@@ -234,6 +254,8 @@ function update(source) {
       .on("click", click);
    nodeEnter.append("circle")
    .attr("r", function(d) { return d.value; })
+   .append("title")
+  .text(function(d) { return d.info; })
    .style("stroke", function(d) { return d.type; })
    .style("fill", function(d) { return d.level; });
   nodeEnter.append("text")
@@ -298,6 +320,8 @@ function click(d) {
     d._children = null;
   }
   update(d);
+
+  
 }
 </script>
 </div>
