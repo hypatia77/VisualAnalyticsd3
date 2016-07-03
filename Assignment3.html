@@ -155,18 +155,6 @@ legend
    .style("stroke-width", 1)
    .style("fill", function(d){return d;}); 
 
-legend
-    .append('g.legendText')
-    .attr("class", "legend")
-    .attr("x", width - 75) //leave 5 pixel space after the <rect>
-    .attr("y", function(d, i) {
-       return i * 20;
-    })
-    .attr("dy", "0.8em") //place text one line *below* the x,y point
-    .text(function(d,i) {
-        var extent = color_scale.invertExtent(d);        
-        return Math.round(extent[0]) + " - " + Math.round(extent[1]);
-
     legend.append("text")
 	 .data(legendText)
       	  .attr("x", 24)
