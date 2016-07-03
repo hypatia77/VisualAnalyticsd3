@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <style>
 
+svg {
+	position: relative;
+	z-index:2;
+}
+
 .node {
    cursor: pointer;
 }
@@ -195,7 +200,7 @@ json = {
     ]
   };
 				 
-var margin = {top:10, right: 70, bottom: 20, left: 200},
+var margin = {top:10, right: 70, bottom: 20, left: 500},
     width = 960 - margin.right - margin.left,
     height = 800 - margin.top - margin.bottom;
 
