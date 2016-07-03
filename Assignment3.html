@@ -99,9 +99,7 @@ var color_scale = d3.scale.quantize()
   
 var path = d3.geo.path()
     .projection(projection)
-    .pointRadius(function(d){return Math.floor(d[1]/14);})
-    .scale(width)
-    .translate([width / 2, height / 2]);
+    .pointRadius(function(d){return Math.floor(d[1]/14);});
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -153,7 +151,33 @@ legend
         var extent = color_scale.invertExtent(d);        
         return Math.round(extent[0]) + " - " + Math.round(extent[1]);
     });
-    
+    function resize() {
+
+    var w = d3.select("#visuals").node().clientWidth;
+    console.log("resized", w);
+
+    // adjust things when the window size changes
+    width = w - margin.left - margin.right;
+    height = width * mapRatio;
+
+    console.log(width)
+    // update projection
+    var newProjection = d3.geo.albersUsa()
+      .scale(width)
+      .translate([width / 2, height / 2]);
+
+    //Update path
+    path = d3.geo.path()
+      .projection(newProjection);    
+
+    // resize the map container
+    svg
+        .style('width', width + 'px')
+        .style('height', height + 'px');
+
+    // resize the map
+    svg.selectAll("path").attr('d', path);
+}
     
 }
 </script>
